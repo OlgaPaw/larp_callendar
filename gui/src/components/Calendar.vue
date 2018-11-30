@@ -17,6 +17,8 @@
 
 <script>
 import { CalendarView, CalendarViewHeader } from "vue-simple-calendar"
+import axios from 'axios'
+
 require("vue-simple-calendar/static/css/default.css")
 require("vue-simple-calendar/static/css/holidays-us.css")
 
@@ -35,28 +37,7 @@ export default {
 			displayPeriodCount: 1,
 			showEventTimes: true,
 			useDefaultTheme: true,
-			events: [
-				{
-					id: "e3",
-					startDate: this.thisMonth(7, 9, 25),
-					endDate: this.thisMonth(10, 16, 30),
-					title: "Multi-day event with a long title and times",
-				},
-				{
-					id: "e4",
-					startDate: this.thisMonth(20),
-					title: "My Birthday!",
-					classes: "birthday",
-					url: "https://en.wikipedia.org/wiki/Birthday",
-				},
-				{
-					id: "e5",
-					startDate: this.thisMonth(5),
-					endDate: this.thisMonth(12),
-					title: "Multi-day event",
-					classes: "purple",
-				}
-			],
+      events: [],
 		}
 	},
 	computed: {
@@ -65,7 +46,22 @@ export default {
 				"theme-default": this.useDefaultTheme
 			}
 		},
-	},
+  },
+  mounted () {
+    axios
+      .get('http://localhost:8000/api/larps/')
+      .then(response => {
+        this.events = response.data.map(
+          function(x) {
+              return {
+                title: x.name,
+                startDate: x.date_start,
+                endDate: x.date_end,
+              }
+          })
+        })
+      .catch(err => console.error(err))
+  },
 	methods: {
 		thisMonth(d, h, m) {
 			const t = new Date()
