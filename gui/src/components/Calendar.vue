@@ -53,6 +53,7 @@ export default {
       title: x.name,
       startDate: x.date_start,
       endDate: x.date_end,
+      style: `background-color: ${this.getRandomColor()}`,
     }))
   },
 	methods: {
@@ -62,7 +63,8 @@ export default {
 		},
 		setShowDate(d) {
 			this.showDate = d
-		},
+    },
+    getRandomColor: () => `hsl(${Math.random() * 360}, 100%, 80%)`
 	},
 }
 </script>
