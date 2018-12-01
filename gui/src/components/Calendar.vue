@@ -47,20 +47,14 @@ export default {
 			}
 		},
   },
-  mounted () {
-    axios
-      .get('http://localhost:8000/api/larps/')
-      .then(response => {
-        this.events = response.data.map(
-          function(x) {
-              return {
-                title: x.name,
-                startDate: x.date_start,
-                endDate: x.date_end,
-              }
-          })
-        })
+  async mounted () {
+    const response = await axios.get('http://localhost:8000/api/larps/')
       .catch(err => console.error(err))
+    this.events = response.data.map(x => ({
+      title: x.name,
+      startDate: x.date_start,
+      endDate: x.date_end,
+    }))
   },
 	methods: {
 		thisMonth(d, h, m) {
