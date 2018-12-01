@@ -16,11 +16,10 @@
 </template>
 
 <script>
-import { CalendarView, CalendarViewHeader } from "vue-simple-calendar"
+import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar'
 import axios from 'axios'
 
-require("vue-simple-calendar/static/css/default.css")
-require("vue-simple-calendar/static/css/holidays-us.css")
+require('vue-simple-calendar/static/css/default.css')
 
 export default {
   name: 'Calendar',
@@ -33,7 +32,7 @@ export default {
 			/* Show the current month, and give it some fake events to show */
 			showDate: this.thisMonth(1),
 			startingDayOfWeek: 0,
-			displayPeriodUom: "month",
+			displayPeriodUom: 'month',
 			displayPeriodCount: 1,
 			showEventTimes: true,
 			useDefaultTheme: true,
@@ -43,7 +42,7 @@ export default {
 	computed: {
 		themeClasses() {
 			return {
-				"theme-default": this.useDefaultTheme
+				'theme-default': this.useDefaultTheme
 			}
 		},
   },
