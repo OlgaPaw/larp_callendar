@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <Calendar></Calendar>
+    <LarpForm></LarpForm>
   </div>
 </template>
 
 <script>
 import Calendar from './components/Calendar.vue'
+import LarpForm from './components/LarpForm.vue'
 
 export default {
   name: 'app',
   components: {
-    Calendar
+    Calendar,
+    LarpForm
   }
 }
 </script>
