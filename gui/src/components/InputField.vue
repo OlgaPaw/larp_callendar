@@ -2,9 +2,11 @@
   <p>
     <label v-bind:for="field.label"> {{field.label}} </label>
     <input 
-      v-bind:id="field.label" 
-      v-bind:type="typeMappings[field.type]" 
+      v-bind:id="field.label"
+      v-bind:type="typeMappings[field.type]"
       v-bind:required="field.required"
+      v-model="value"
+      v-on:change="$emit('update', field.label, $event.target._value)"
     />
   </p>
 </template>
@@ -21,7 +23,8 @@ export default {
         "url": "url",
         "image upload": "file",
         "datetime": "datetime-local"
-      }
+      },
+      value: ""
     }
   }
 }

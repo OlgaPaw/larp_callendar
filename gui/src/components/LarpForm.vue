@@ -1,6 +1,12 @@
 <template>
   <div id="larp-form">
-   <InputField v-for="field in writableFields" v-bind:field="field"/>
+    <InputField
+      v-for="field in writableFields"
+      v-bind:field="field"
+      v-on:update="onChildUpdate"
+    />
+    <button type="button" v-on:click="sendForm">Send</button> 
+  Props: {{values}}
   </div>
 </template>
 
@@ -15,13 +21,16 @@ export default {
   },
   data() {
     return {
-      fields: []
+      fields: [],
+      values: {}
     }
   },
   computed: {
-     writableFields: function () {
+    writableFields: function () {
       return Object.values(this.fields).filter(f => f.read_only === false);
+      //TODO: change to dict, and identify by id not labels
     }
+
   },
   async mounted () {
     const response = await axios.options('http://localhost:8000/api/larps/')
@@ -29,7 +38,15 @@ export default {
     this.fields = response.data.actions.POST
   },
   methods: {
-  },
+    onChildUpdate (child, newValue) {
+      this.$set(this.values, child, newValue)
+    },
+    async sendForm () {
+      const response = axios.post('http://localhost:8000/api/larps/', this.values)
+        .catch(err => console.error(err))
+      console.log(response)
+    }
+  }
 }
 </script>
 
