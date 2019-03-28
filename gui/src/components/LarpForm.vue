@@ -5,8 +5,8 @@
       v-bind:field="field"
       v-on:update="onChildUpdate"
     />
-    <button type="button" v-on:click="sendForm">Send</button> 
-  Props: {{values}}
+    <button type="button" v-on:click="sendForm">Send</button>
+  {{status}}
   </div>
 </template>
 
@@ -22,20 +22,27 @@ export default {
   data() {
     return {
       fields: [],
-      values: {}
+      values: {},
+      status: ""
     }
   },
   computed: {
     writableFields: function () {
-      return Object.values(this.fields).filter(f => f.read_only === false);
-      //TODO: change to dict, and identify by id not labels
+      var writables = [];
+      var keys = Object.keys(this.fields);
+      keys.forEach(key => {
+        if (this.fields[key].read_only === false){
+          writables.push({...this.fields[key], name: key});
+        }
+      });
+      return writables;
     }
 
   },
   async mounted () {
     const response = await axios.options('http://localhost:8000/api/larps/')
       .catch(err => console.error(err))
-    this.fields = response.data.actions.POST
+    this.fields = response.data.actions.POST;
   },
   methods: {
     onChildUpdate (child, newValue) {
@@ -43,8 +50,8 @@ export default {
     },
     async sendForm () {
       const response = axios.post('http://localhost:8000/api/larps/', this.values)
-        .catch(err => console.error(err))
-      console.log(response)
+        .catch(err => this.status = "Error")
+      this.status = "Larp entry created"
     }
   }
 }

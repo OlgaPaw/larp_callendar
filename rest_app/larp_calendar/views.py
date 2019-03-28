@@ -5,6 +5,7 @@ from larp_calendar.serializers import LarpSerializer
 
 
 class LarpViewSet(viewsets.ModelViewSet):
-    queryset = LarpModel.objects.filter(validated=True)
+    # queryset = LarpModel.objects.filter(validated=True)
+    queryset = LarpModel.objects.all()
     serializer_class = LarpSerializer
     http_method_names = ['get', 'post', 'head', 'options']

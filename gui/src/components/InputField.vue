@@ -1,12 +1,12 @@
 <template>
   <p>
-    <label v-bind:for="field.label"> {{field.label}} </label>
+    <label v-bind:for="field.name"> {{field.label}} </label>
     <input 
-      v-bind:id="field.label"
+      v-bind:id="field.name"
       v-bind:type="typeMappings[field.type]"
       v-bind:required="field.required"
       v-model="value"
-      v-on:change="$emit('update', field.label, $event.target._value)"
+      v-on:change="$emit('update', field.name, $event.target._value)"
     />
   </p>
 </template>
